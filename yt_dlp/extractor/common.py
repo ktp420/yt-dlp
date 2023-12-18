@@ -2649,6 +2649,7 @@ class InfoExtractor:
                 'start_number': 1,
                 'timescale': 1,
             })
+            period_id = period.attrib.get('id')
             for adaptation_set in period.findall(_add_ns('AdaptationSet')):
                 adaption_set_ms_info = extract_multisegment_info(adaptation_set, period_ms_info)
                 for representation in adaptation_set.findall(_add_ns('Representation')):
@@ -2703,6 +2704,8 @@ class InfoExtractor:
                         format_id = content_type
                     if mpd_id:
                         format_id = mpd_id + '-' + format_id
+                    if period_id:
+                        format_id = format_id + '-' + period_id
                     if content_type in ('video', 'audio'):
                         f = {
                             'format_id': format_id,

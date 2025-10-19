@@ -6,6 +6,7 @@ import random
 import typing
 import urllib.parse
 import urllib.request
+import time
 
 if typing.TYPE_CHECKING:
     T = typing.TypeVar('T')
@@ -15,11 +16,52 @@ from .traversal import traverse_obj
 
 
 def random_user_agent():
-    USER_AGENT_TMPL = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{} Safari/537.36'
-    # Target versions released within the last ~6 months
-    CHROME_MAJOR_VERSION_RANGE = (134, 140)
-    return USER_AGENT_TMPL.format(f'{random.randint(*CHROME_MAJOR_VERSION_RANGE)}.0.0.0')
-
+    _USER_AGENT_TPL = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/%s Safari/537.36'
+    #_CHROME_VERSIONS = (
+    #    '90.0.4430.212',
+    #    '90.0.4430.24',
+    #    '90.0.4430.70',
+    #    '90.0.4430.72',
+    #    '90.0.4430.85',
+    #    '90.0.4430.93',
+    #    '91.0.4472.101',
+    #    '91.0.4472.106',
+    #    '91.0.4472.114',
+    #    '91.0.4472.124',
+    #    '91.0.4472.164',
+    #    '91.0.4472.19',
+    #    '91.0.4472.77',
+    #    '92.0.4515.107',
+    #    '92.0.4515.115',
+    #    '92.0.4515.131',
+    #    '92.0.4515.159',
+    #    '92.0.4515.43',
+    #    '93.0.4556.0',
+    #    '93.0.4577.15',
+    #    '93.0.4577.63',
+    #    '93.0.4577.82',
+    #    '94.0.4606.41',
+    #    '94.0.4606.54',
+    #    '94.0.4606.61',
+    #    '94.0.4606.71',
+    #    '94.0.4606.81',
+    #    '94.0.4606.85',
+    #    '95.0.4638.17',
+    #    '95.0.4638.50',
+    #    '95.0.4638.54',
+    #    '95.0.4638.69',
+    #    '95.0.4638.74',
+    #    '96.0.4664.18',
+    #    '96.0.4664.45',
+    #    '96.0.4664.55',
+    #    '96.0.4664.93',
+    #    '97.0.4692.20',
+    #)
+    n = time.gmtime()
+    _CHROME_VERSIONS = [
+        '{0}.0.{1}.{2}'.format(50+i, random.randint(3050+(50*(i-60)), 3100+(50*(i-60))), random.randint(50, 199))
+         for i in range(n.tm_year-1960+n.tm_mon, n.tm_year-1948+n.tm_mon)]
+    return _USER_AGENT_TPL % random.choice(_CHROME_VERSIONS)
 
 class HTTPHeaderDict(dict):
     """
@@ -161,8 +203,8 @@ class HTTPHeaderDict(dict):
 std_headers = HTTPHeaderDict({
     'User-Agent': random_user_agent(),
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'en-us,en;q=0.5',
-    'Sec-Fetch-Mode': 'navigate',
+    #'Accept-Language': 'en-us,en;q=0.5',
+    #'Sec-Fetch-Mode': 'navigate',
 })
 
 

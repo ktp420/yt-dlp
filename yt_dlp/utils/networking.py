@@ -63,8 +63,7 @@ def random_user_agent():
          for i in range(n.tm_year-1960+n.tm_mon, n.tm_year-1948+n.tm_mon)]
     return _USER_AGENT_TPL % random.choice(_CHROME_VERSIONS)
 
-
-class HTTPHeaderDict(collections.UserDict, dict):
+class HTTPHeaderDict(dict):
     """
     Store and access keys case-insensitively.
     The constructor can take multiple dicts, in which keys in the latter are prioritised.
